@@ -1,5 +1,5 @@
-# tlw-test-automation-ram
-This project is placeholder for maintaining the test scripts for RAM application
+# Selenium Pico Container
+This is the sample project which uses cucumber-pico container as dependency injection
 
 ## Installation
 1. Dowload or fork the project
