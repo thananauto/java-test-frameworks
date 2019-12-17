@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+
+
+    <!-- parent class to initialise all default class objects -->
+    <bean id="initBrowser" class="com.test.libraries.Context" destroy-method="quitDriver">
+     <property name="driver" ref="webDriverFactory"></property>
+       <property name="dataSource" ref="dbDataSource"></property>
+    </bean>
+
+
+    <!--Initialisation of browser and thier properties-->
+    <bean id = "webDriverFactory" class="com.test.libraries.WebDriverFactory">
+        <property name="browserName" value="${browserName}"></property>
+    </bean>
+
+    <!--Sample initialisation for JDBC template-->
+
+    <bean id = "dbDataSource" class = "org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name = "driverClassName" value = "oracle.jdbc.driver.OracleDriver"/>
+        <property name = "url" value = "${db.url}"/>
+        <property name = "username" value = "${db.username}"/>
+        <property name = "password" value = "${db.password}"/>
+    </bean>
+
+
+    <!--Sample initialisation of REST Assure template -->
+
+    <!--Assign the properties files-->
+
+    <bean id="applicationPropertiesPlaceholder" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+           <!-- <list>
+                 <value>classpath:config/application.properties</value>
+            </list>-->
+            <ref bean="applicationProperties"/>
+           </property>
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
+    </bean>
+
+
+    <beans profile="default">
+        <bean id="applicationProperties" class="org.springframework.core.io.ClassPathResource">
+            <constructor-arg value="/config/dev/application.properties" />
+        </bean>
+    </beans>
+
+    <beans profile="test">
+        <bean id="applicationProperties" class="org.springframework.core.io.ClassPathResource">
+            <constructor-arg value="/config/test/application.properties" />
+        </bean>
+    </beans>
+
+    </beans>
