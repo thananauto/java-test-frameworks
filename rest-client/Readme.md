@@ -1,7 +1,7 @@
 ### Jira Rest Client
 This purpose of the project is to read and update the status of JIRA ID.
 
-You can find the standalone script to test the connection with Jira
+You can find the standalone script to test the connection with Jira in `src` folder
 
 Before you try ask the JIRA admin to expose the project API's
 
