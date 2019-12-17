@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.ui.automation</groupId>
+    <artifactId>bdd-selenium-picocontainer</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+
+    <name>RAM UI automation framework</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <googlchromedriverbinary.version>2.33</googlchromedriverbinary.version>
+        <source.and.target.JVM.version>1.8</source.and.target.JVM.version>
+        <surefire.fork.count>2</surefire.fork.count>
+        <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
+        <maven-resources-plugin.version>2.7</maven-resources-plugin.version>
+        <maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
+        <cucumber-jvm-parallel-plugin.version>4.1.0</cucumber-jvm-parallel-plugin.version>
+        <maven-cucumber-reporting.version>3.1.0</maven-cucumber-reporting.version>
+        <exec-maven-plugin.version>1.2.1</exec-maven-plugin.version>
+        <com.codeborne.selenide>5.0.0</com.codeborne.selenide>
+    </properties>
+
+    <!-- Adding profiles in order to differentiate the @smoke and @regression test suite based on environment-->
+    <!-- To execute the script locally from maven use mvn <phase or goal> -P local-->
+    <profiles>
+        <profile>
+            <id>IRT</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>environment</name>
+                    <value>IRT</value>
+                </property>
+            </activation>
+            <properties>
+                <test.suite>@fuck</test.suite>
+                <ram.env>st</ram.env>
+                <ram.execution.mode>remote</ram.execution.mode>
+            </properties>
+        </profile>
+        <profile>
+            <id>SCRUM</id>
+            <activation>
+                <property>
+                    <name>environment</name>
+                    <value>SCRUM</value>
+                </property>
+            </activation>
+            <properties>
+                <test.suite>@fuck</test.suite>
+                <ram.env>st</ram.env>
+                <ram.execution.mode>remote</ram.execution.mode>
+            </properties>
+        </profile>
+        <profile>
+            <id>LST</id>
+            <activation>
+                <property>
+                    <name>environment</name>
+                    <value>LST</value>
+                </property>
+            </activation>
+            <properties>
+                <test.suite>@regression</test.suite>
+                <ram.env>lst</ram.env>
+                <ram.execution.mode>remote</ram.execution.mode>
+            </properties>
+        </profile>
+        <profile>
+            <id>UAT</id>
+            <activation>
+                <property>
+                    <name>environment</name>
+                    <value>UAT</value>
+                </property>
+            </activation>
+            <properties>
+                <test.suite>@regression</test.suite>
+                <ram.env>chain</ram.env>
+                <ram.execution.mode>remote</ram.execution.mode>
+            </properties>
+        </profile>
+        <profile>
+            <id>local</id>
+            <properties>
+                <test.suite>@regression</test.suite>
+                <ram.env>st</ram.env>
+                <ram.execution.mode>remote</ram.execution.mode>
+            </properties>
+        </profile>
+
+    </profiles>
+    <build>
+        <!-- map ${} variable -->
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven-resources-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <source>${source.and.target.JVM.version}</source>
+                    <target>${source.and.target.JVM.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.github.temyers</groupId>
+                <artifactId>cucumber-jvm-parallel-plugin</artifactId>
+                <version>${cucumber-jvm-parallel-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>generateRunners</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>generateRunners</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Mandatory -->
+                            <!-- List of package names to scan for glue code. -->
+                            <glue>
+                                <package>com.base</package>
+                                <package>com.stepdefinition</package>
+                                <package>com.common.utility</package>
+                                <package>com.page.objects</package>
+                                <package>com.test.automation.jvm.parallel</package>
+                                <package>com.test.automation.web.client</package>
+                            </glue>
+                            <!-- These are optional, with the default values -->
+                            <!-- Where to output the generated tests -->
+                            <outputDirectory>${project.build.directory}/generated-test-sources/cucumber
+                            </outputDirectory>
+                            <!-- The directory, which must be in the root of the runtime classpath,
+                                containing your feature files. -->
+                            <featuresDirectory>src/test/resources/features</featuresDirectory>
+                            <!-- Directory where the cucumber report files shall be written -->
+                            <cucumberOutputDir>target/cucumber-parallel</cucumberOutputDir>
+                            <!-- List of cucumber plugins. When none are provided the json formatter
+                                is used. For more advanced usage see section about configuring cucumber plugins -->
+                            <plugins>
+                                <plugin>
+                                    <name>json</name>
+                                </plugin>
+                                <!-- <plugin> <name>html</name> <extension>html</extension> </plugin> -->
+                            </plugins>
+                            <!-- CucumberOptions.strict property -->
+                            <strict>true</strict>
+                            <!-- CucumberOptions.monochrome property -->
+                            <monochrome>true</monochrome>
+                            <!-- The tags to run, maps to CucumberOptions.tags property. Default
+                                is no tags. -->
+                            <tags>
+                                <tag>${test.suite}</tag>
+                            </tags>
+                            <!-- The naming scheme to use for the generated test classes. One
+                                of 'simple' or 'feature-title' -->
+                            <namingScheme>simple</namingScheme>
+                            <!-- One of [SCENARIO, FEATURE]. SCENARIO generates one runner per
+                                scenario. FEATURE generates a runner per feature. -->
+                            <parallelScheme>FEATURE</parallelScheme>
+                            <useTestNG>false</useTestNG>
+                            <!-- The class naming pattern to use. Only required/used if naming
+                                scheme is 'pattern'. -->
+                            <namingPattern>Parallel{c}IT</namingPattern>
+                            <!-- Generate JUnitReRun runners instead of JUnit and TestNG single
+                                runner. -->
+                            <useJUnitReRun>true</useJUnitReRun>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+                    <additionalClasspathElements>
+                        <additionalClasspathElement>resources</additionalClasspathElement>
+                    </additionalClasspathElements>
+                    <!-- Increase the fork count more for multi threads -->
+                    <forkCount>4</forkCount>
+                    <reuseForks>true</reuseForks>
+                    <includes>
+                        <include>**/*IT.class</include>
+                    </includes>
+                    <testFailureIgnore>true</testFailureIgnore>
+                </configuration>
+            </plugin>
+
+			<plugin>
+				<groupId>net.masterthought</groupId>
+				<artifactId>maven-cucumber-reporting</artifactId>
+				<version>${maven-cucumber-reporting.version}</version>
+				<executions>
+					<execution>
+						<id>execution</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<projectName>RAM</projectName>
+							<outputDirectory>${project.build.directory}/cucumber-report-html</outputDirectory>
+							<cucumberOutput>${project.build.directory}/cucumber-parallel/cucumber.json</cucumberOutput>
+							<buildNumber>1</buildNumber>
+							<parallelTesting>true</parallelTesting>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>${exec-maven-plugin.version}</version>
+				<executions>
+					<!-- <execution> <phase>process-classes</phase> <goals> <goal>java</goal> 
+						</goals> <configuration> <mainClass>UpdateTestData</mainClass>
+						<arguments> <argument>arg0</argument> <argument>arg1</argument> </arguments> 
+						</configuration> </execution> -->
+					<execution>
+						<id>merge-cucumber-json-reports</id>
+						<phase>test</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<configuration>
+							<echo> executing JSON Report merger</echo>
+							<!-- <classpathScope>test</classpathScope> -->
+							<mainClass>com.test.automation.jvm.parallel.JSONReportMerger</mainClass>
+							<arguments>
+								<argument>target/cucumber-parallel/</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+        </plugins>
+	</build>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>1.2.5</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.3</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/info.cukes/cucumber-junit -->
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>1.2.5</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/junit/junit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/info.cukes/cucumber-picocontainer -->
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-picocontainer</artifactId>
+            <version>1.2.4</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>3.14.0</version>
+        </dependency>
+        <dependency>
+            <!-- Required by JSONReportMerger -->
+            <groupId>com.codeborne</groupId>
+            <artifactId>selenide</artifactId>
+            <version>${com.codeborne.selenide}</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+        <dependency>
+            <!-- Required by JSONReportMerger -->
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>4.2.1.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc7</artifactId>
+            <version>12.1.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.6</version>
+        </dependency>
+    </dependencies>
+    
+
+</project>

@@ -1,0 +1,6 @@
+#!groovy
+
+
+@Library('rbg-pega-pipeline-library') _
+
+mavenTest()
