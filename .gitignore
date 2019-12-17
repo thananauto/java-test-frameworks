@@ -6,7 +6,10 @@ drivers/
 build/
 .settings
 *.log
-*.iml
 .idea/
 target/
 *.exe
+.classpath
+.project
+*.iml
+.settings/
