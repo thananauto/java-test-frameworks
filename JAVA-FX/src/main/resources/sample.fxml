@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="907.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <children>
+      <TabPane layoutX="3.0" layoutY="3.0" prefHeight="581.0" prefWidth="902.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Search">
+            <content>
+              <AnchorPane fx:id="anchorPane" minHeight="0.0" minWidth="0.0" prefHeight="502.0" prefWidth="758.0">
+                     <children>
+                        <Label fx:id="fileLabel" layoutX="35.0" layoutY="48.0" prefHeight="17.0" prefWidth="99.0" text="Choose a file" />
+                        <TextField fx:id="fileTextField" layoutX="210.0" layoutY="44.0" onMouseClicked="#selectFileFromDirectory" />
+                        <Button fx:id="fileClear" layoutX="438.0" layoutY="44.0" mnemonicParsing="false" onAction="#clearSearch" prefHeight="25.0" prefWidth="82.0" text="Clear" />
+                        <Label layoutX="42.0" layoutY="103.0" prefHeight="42.0" prefWidth="253.0" text="Select the Object repository sheet " />
+                        <ComboBox fx:id="comboBox" layoutX="404.0" layoutY="112.0" onAction="#onSelect" prefWidth="150.0" />
+                        <Label layoutX="42.0" layoutY="298.0" prefHeight="17.0" prefWidth="99.0" text="Result" />
+                        <TableView fx:id="tableView" layoutX="79.0" layoutY="325.0" prefHeight="200.0" prefWidth="764.0">
+                          <columns>
+                            <TableColumn fx:id="pageName" prefWidth="172.0" text="PageName" />
+                            <TableColumn fx:id="variableName" prefWidth="193.0" text="VariableName" />
+                              <TableColumn fx:id="identifierName" prefWidth="144.0" text="IdentifierName" />
+                              <TableColumn fx:id="valueName" prefWidth="254.0" text="ValueName" />
+                          </columns>
+                        </TableView>
+                        <Button fx:id="objClearBtn" layoutX="556.0" layoutY="206.0" mnemonicParsing="false" onAction="#clearObject" prefHeight="25.0" prefWidth="82.0" text="Clear" />
+                        <Button fx:id="objSearchBtn" layoutX="415.0" layoutY="206.0" mnemonicParsing="false" onAction="#searchObjects" prefHeight="25.0" prefWidth="82.0" text="Search" />
+                        <TextField fx:id="objSearch" layoutX="223.0" layoutY="206.0" />
+                        <Label layoutX="48.0" layoutY="210.0" prefHeight="17.0" prefWidth="99.0" text="Search the object" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Insert">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+            <Tab text="Delete">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

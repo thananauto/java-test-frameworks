@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="585.0" prefWidth="779.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <children>
+      <Button fx:id="buttonOK" layoutX="366.0" layoutY="64.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" text="OK" />
+      <Button layoutX="487.0" layoutY="64.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Clear" />
+      <Group layoutX="90.0" layoutY="67.0" />
+      <Label layoutX="9.0" layoutY="76.0" prefHeight="17.0" prefWidth="161.0" text="Enter the file name" />
+      <MenuBar layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="453.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Search Objects" />
+          <Menu mnemonicParsing="false" text="Insert Object" />
+          <Menu mnemonicParsing="false" text="Delete Object" />
+        </menus>
+      </MenuBar>
+      <TextField layoutX="161.0" layoutY="230.0" prefHeight="25.0" prefWidth="200.0" />
+      <TextField fx:id="searchButton" layoutX="148.0" layoutY="64.0" prefHeight="25.0" prefWidth="200.0" />
+      <Label layoutX="25.0" layoutY="234.0" prefHeight="17.0" prefWidth="105.0" text="Search the Object" />
+      <Button layoutX="395.0" layoutY="230.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="71.0" text="Search" />
+      <Button layoutX="507.0" layoutY="230.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" text="Clear" />
+      <Label layoutX="25.0" layoutY="307.0" prefHeight="17.0" prefWidth="200.0" text="Results" />
+      <ListView layoutX="141.0" layoutY="340.0" prefHeight="200.0" prefWidth="482.0" />
+      <Label layoutX="14.0" layoutY="146.0" prefHeight="17.0" prefWidth="105.0" text="Select the repo file" />
+      <ComboBox layoutX="150.0" layoutY="134.0" prefHeight="25.0" prefWidth="206.0" />
+   </children>
+</Pane>
