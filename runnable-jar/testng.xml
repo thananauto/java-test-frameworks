@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.1.dtd">
+
+<suite name="Testing Google Apps"  thread-count="3" parallel="none" configfailurepolicy="continue">
+    <groups>
+        <run>
+            <include name="asdasd"/>
+        </run>
+    </groups>
+    <listeners>
+        <listener class-name="com.qa.testng.Transform"/>
+    </listeners>
+    <test name="Regression">
+
+        <classes>
+
+            <class name="com.qa.testng.Operation"/>
+        </classes>
+    </test> <!-- Test -->
+</suite> <!-- Suite -->
